@@ -14,7 +14,7 @@ train_iter, test_iter = dl.load_data_fashion_mnist(batch_size, resize=None)
 
 args = argparse.ArgumentParser()
 args.add_argument('--mode',default='test')
-args.add_argument('--path',default='../model_result/lenet')
+args.add_argument('--path',default='../model_result/lenet.pt')
 args.add_argument('--num_epochs',default=1,type=int)
 args.add_argument('--lr',default=0.001,type=float)
 config = args.parse_args()
@@ -25,8 +25,9 @@ num_epochs = config.num_epochs
 lr = config.lr
 
 print(config)
-
-if mode=='train':
+if mode=='display':
+    print(net.state_dict())
+elif mode=='train':
     optimizer = torch.optim.Adam(net.parameters(), lr=lr)
     dl.train_ch5(net, train_iter, test_iter, batch_size, optimizer, 'cuda', num_epochs)
     torch.save(net.state_dict(),PATH)
